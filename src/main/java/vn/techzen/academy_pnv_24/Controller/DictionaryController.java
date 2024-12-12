@@ -4,17 +4,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.techzen.academy_pnv_24.model.Dictionary;
-import vn.techzen.academy_pnv_24.model.Student;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-@RestController()
+@RestController
 @RequestMapping("/dictionary")
 public class DictionaryController {
 
-    List<Dictionary> dictionary = new ArrayList<>(
+    private final List<Dictionary> dictionary = new ArrayList<>(
             Arrays.asList(
                     new Dictionary(1, "food", "Đồ ăn"),
                     new Dictionary(2, "cat", "Con mèo"),
@@ -23,22 +23,23 @@ public class DictionaryController {
                     new Dictionary(5, "father", "Bố"),
                     new Dictionary(6, "friend", "Bạn"),
                     new Dictionary(7, "daughter", "Con gái")
-
             )
     );
 
     @GetMapping
-    public ResponseEntity<List<Dictionary>> getAllDictionary() {
-        return ResponseEntity.ok(dictionary);
-    }
+    public ResponseEntity<?> getDictionary(@RequestParam String word) {
+        // Lọc từ trong danh sách dictionary
+        Optional<Dictionary> result = dictionary.stream()
+                .filter(e -> e.getEnglish_word().equalsIgnoreCase(word))
+                .findFirst();
 
-//    @GetMapping("/{word}")
-//    public ResponseEntity<String> searchDictionary(@RequestParam String english_word) {
-//        for (Dictionary Dictionary : dictionary) {
-//            if (Dictionary.getEnglish_word().) {
-//                return ResponseEntity.ok(Dictionary.getTranslation());
-//            }
-//        }
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//    }
+        // Kiểm tra nếu từ được tìm thấy
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Word not found in dictionary");
+        }
+    }
 }
