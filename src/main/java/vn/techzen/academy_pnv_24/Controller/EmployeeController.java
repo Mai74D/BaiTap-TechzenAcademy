@@ -69,4 +69,19 @@ public class EmployeeController {
 
         return ResponseEntity.ok("Employee with ID " + id + " has been deleted successfully.");
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getEmployeeById(@PathVariable("id") int id) {
+        Employee existingEmployee = employees.stream()
+                .filter(employee -> employee.getId() == id)
+                .findFirst()
+                .orElse(null);
+
+        if (existingEmployee == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Employee not found.");
+        }
+
+        return ResponseEntity.ok(existingEmployee);
+    }
+
 }
