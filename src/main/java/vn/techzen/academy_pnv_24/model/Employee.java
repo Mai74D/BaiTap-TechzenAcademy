@@ -1,18 +1,23 @@
 package vn.techzen.academy_pnv_24.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Builder
-public class Student {
+public class Employee {
     int id;
     String name;
-    int age;
+    LocalDate dob;
+    String gender;
+    BigDecimal salary;
+    String phone;
+
 }

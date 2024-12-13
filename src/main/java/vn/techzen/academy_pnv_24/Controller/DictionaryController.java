@@ -32,7 +32,7 @@ public class DictionaryController {
     public ResponseEntity<?> getDictionary(@RequestParam String word) {
         // Lọc từ trong danh sách dictionary
         Optional<Dictionary> result = dictionary.stream()
-                .filter(e -> e.getEnglish_word().equalsIgnoreCase(word))
+                .filter(e -> e.getEnglish_word().equalsIgnoreCase(word.trim().toLowerCase()))
                 .findFirst();
 
         // Kiểm tra nếu từ được tìm thấy

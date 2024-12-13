@@ -3,44 +3,49 @@ package vn.techzen.academy_pnv_24.Controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
+import vn.techzen.academy_pnv_24.dto.ApiResponse;
+import vn.techzen.academy_pnv_24.exeption.AppExeption;
+import vn.techzen.academy_pnv_24.exeption.ErrorCode;
 import vn.techzen.academy_pnv_24.model.Student;
+import vn.techzen.academy_pnv_24.service.StudentService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.stream.DoubleStream.builder;
+
 @RestController
 @RequestMapping("/students")
 public class StudentController {
-    private List<Student> students = new ArrayList<>(
-            Arrays.asList(
-                    new Student(1,"Ho Thi Mai",18),
-                    new Student(2,"Ho Thi Bao",19),
-                    new Student(3,"Ho Thi Tan",18),
-                    new Student(4,"Ho Thi Duc",18)
+    private final RestClient.Builder builder;
+    private StudentService studentService = new StudentService();
 
-            )
-    );
+    public StudentController(RestClient.Builder builder) {
+        this.builder = builder;
+    }
 
     @RequestMapping
     public ResponseEntity<List<Student>> getStudents() {
-        return ResponseEntity.ok(students);
+        return ResponseEntity.ok(studentService.findAllStudents());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable int id) {
-        for (Student student : students) {
-            if(student.getId() == id){
-                return ResponseEntity.ok(student);
-            }
+    public ResponseEntity<ApiResponse<Student>> getStudent(@PathVariable int id) throws AppExeption {
+        Student student = studentService.findStudentById(id);
+        if (student == null) {
+            throw new AppExeption(ErrorCode.STUDENT_NOT_EXIST);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(ApiResponse.<Student>builder()
+                .data(student)
+                .build()
+        );
     }
 
     @PostMapping
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
-        student.setId((int) (Math.random()*10000));
-        students.add(student);
+        studentService.saveStudent(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(student);
     }
 }
