@@ -5,16 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClient;
 import vn.techzen.academy_pnv_24.dto.ApiResponse;
-import vn.techzen.academy_pnv_24.exeption.AppExeption;
-import vn.techzen.academy_pnv_24.exeption.ErrorCode;
+import vn.techzen.academy_pnv_24.exception.AppException;
+import vn.techzen.academy_pnv_24.exception.ErrorCode;
 import vn.techzen.academy_pnv_24.model.Student;
 import vn.techzen.academy_pnv_24.service.StudentService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static java.util.stream.DoubleStream.builder;
 
 @RestController
 @RequestMapping("/students")
@@ -32,10 +28,10 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Student>> getStudent(@PathVariable int id) throws AppExeption {
+    public ResponseEntity<ApiResponse<Student>> getStudent(@PathVariable int id) throws AppException {
         Student student = studentService.findStudentById(id);
         if (student == null) {
-            throw new AppExeption(ErrorCode.STUDENT_NOT_EXIST);
+            throw new AppException(ErrorCode.STUDENT_NOT_EXIST);
         }
         return ResponseEntity.ok(ApiResponse.<Student>builder()
                 .data(student)

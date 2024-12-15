@@ -1,8 +1,10 @@
 package vn.techzen.academy_pnv_24.Controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.techzen.academy_pnv_24.dto.JsonResponse;
+import vn.techzen.academy_pnv_24.exception.AppException;
+import vn.techzen.academy_pnv_24.exception.ErrorCode;
 import vn.techzen.academy_pnv_24.model.Employee;
 
 import java.math.BigDecimal;
@@ -23,27 +25,33 @@ public class EmployeeController {
     );
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployees() {
-        return ResponseEntity.ok(employees);
+    public ResponseEntity<?> getAllEmployees() {
+        return JsonResponse.ok(employees);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getEmployeeById(@PathVariable("id") int id) {
+        Employee employee = employees.stream()
+                .filter(e -> e.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
+
+        return JsonResponse.ok(employee);
     }
 
     @PostMapping
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee request) {
+    public ResponseEntity<?> createEmployee(@RequestBody Employee request) {
         request.setId((int) (Math.random() * 10000)); // Set a random ID for the new employee
         employees.add(request);
-        return ResponseEntity.ok(request);
+        return JsonResponse.created(request);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") int id, @RequestBody Employee request) {
+    public ResponseEntity<?> updateEmployee(@PathVariable("id") int id, @RequestBody Employee request) {
         Employee existingEmployee = employees.stream()
                 .filter(employee -> employee.getId() == id)
                 .findFirst()
-                .orElse(null);
-
-        if (existingEmployee == null) {
-            return ResponseEntity.notFound().build();
-        }
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
 
         existingEmployee.setName(request.getName());
         existingEmployee.setDob(request.getDob());
@@ -51,7 +59,7 @@ public class EmployeeController {
         existingEmployee.setSalary(request.getSalary());
         existingEmployee.setPhone(request.getPhone());
 
-        return ResponseEntity.ok(existingEmployee);
+        return JsonResponse.ok(existingEmployee);
     }
 
     @DeleteMapping("/{id}")
@@ -59,29 +67,10 @@ public class EmployeeController {
         Employee existingEmployee = employees.stream()
                 .filter(employee -> employee.getId() == id)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
 
-        if (existingEmployee == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Employee not found.");
-        }
         employees.remove(existingEmployee);
 
-        return ResponseEntity.ok("Employee with ID " + id + " has been deleted successfully.");
+        return JsonResponse.noContent();
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getEmployeeById(@PathVariable("id") int id) {
-        Employee existingEmployee = employees.stream()
-                .filter(employee -> employee.getId() == id)
-                .findFirst()
-                .orElse(null);
-
-        if (existingEmployee == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Employee not found.");
-        }
-
-        return ResponseEntity.ok(existingEmployee);
-    }
-
 }
