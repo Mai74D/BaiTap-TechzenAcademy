@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.techzen.academy_pnv_24.util.JsonResponse;
 import vn.techzen.academy_pnv_24.exception.AppException;
 import vn.techzen.academy_pnv_24.exception.ErrorCode;
-import vn.techzen.academy_pnv_24.model.Department;
+import vn.techzen.academy_pnv_24.entity.Department;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public class DepartmentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateDepartment(@PathVariable("id") int id, @RequestBody Department department) {
-        return departments.stream().filter(e -> e.getId().equals(id)).findFirst().map(e -> {
+        return departments.stream().filter(e -> e.getId() == (id)).findFirst().map(e -> {
             e.setName(department.getName());
             return JsonResponse.ok(e);
         }).orElseThrow(() -> new AppException(ErrorCode.DEPARTMENT_NOT_EXIST));

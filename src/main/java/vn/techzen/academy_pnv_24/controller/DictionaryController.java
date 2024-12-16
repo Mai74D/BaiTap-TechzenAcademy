@@ -3,7 +3,7 @@ package vn.techzen.academy_pnv_24.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.techzen.academy_pnv_24.model.Dictionary;
+import vn.techzen.academy_pnv_24.entity.Dictionary;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,6 +1,6 @@
 package vn.techzen.academy_pnv_24.service;
 
-import vn.techzen.academy_pnv_24.model.Student;
+import vn.techzen.academy_pnv_24.entity.Student;
 
 import java.util.List;
 

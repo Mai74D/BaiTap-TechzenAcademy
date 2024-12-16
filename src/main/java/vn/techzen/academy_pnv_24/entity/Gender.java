@@ -1,4 +1,4 @@
-package vn.techzen.academy_pnv_24.model;
+package vn.techzen.academy_pnv_24.entity;
 
 public enum Gender {
 

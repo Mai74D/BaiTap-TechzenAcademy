@@ -3,7 +3,7 @@ package vn.techzen.academy_pnv_24.dto.employee;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
-import vn.techzen.academy_pnv_24.model.Gender;
+import vn.techzen.academy_pnv_24.entity.Gender;
 
 import java.time.LocalDate;
 
@@ -20,7 +20,8 @@ public class EmployeeSearchRequest {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     LocalDate dobTo;
     Gender gender;
-    String salaryRange;
+    Double salaryFrom;
+    Double salaryTo;
     String phone;
     Integer departmentId;
 }

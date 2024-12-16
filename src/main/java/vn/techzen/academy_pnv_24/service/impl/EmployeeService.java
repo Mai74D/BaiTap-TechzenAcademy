@@ -1,32 +1,41 @@
 package vn.techzen.academy_pnv_24.service.impl;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import vn.techzen.academy_pnv_24.dto.employee.EmployeeSearchRequest;
-import vn.techzen.academy_pnv_24.model.Employee;
+import vn.techzen.academy_pnv_24.entity.Employee;
+import vn.techzen.academy_pnv_24.entity.Gender;
 import vn.techzen.academy_pnv_24.repository.IEmployeeRepository;
 import vn.techzen.academy_pnv_24.service.IEmployeeService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmployeeService implements IEmployeeService {
-    IEmployeeRepository employeeRepository;
+    private final IEmployeeRepository employeeRepository;
 
     @Override
     public List<Employee> findAttributes(EmployeeSearchRequest employeeSearchRequest) {
-        return employeeRepository.findByAttributes(employeeSearchRequest);
+        // Lấy các thông tin từ EmployeeSearchRequest
+        String name = employeeSearchRequest.getName();
+        LocalDate dobFrom = employeeSearchRequest.getDobFrom();
+        LocalDate dobTo = employeeSearchRequest.getDobTo();
+        Gender gender = employeeSearchRequest.getGender();
+        Double salaryFrom = employeeSearchRequest.getSalaryFrom();
+        Double salaryTo = employeeSearchRequest.getSalaryTo();
+        String phone = employeeSearchRequest.getPhone();
+        Integer departmentId = employeeSearchRequest.getDepartmentId();
+
+        // Gọi phương thức findByAttributes trong repository
+        return employeeRepository.findByAttributes(name, dobFrom, dobTo, gender,salaryFrom, salaryTo, phone, departmentId);
     }
 
     @Override
-    public Optional<Employee> findById(Integer id) {
-        return Optional.empty();
+    public Optional<Employee> findById(int id) {
+        return employeeRepository.findById(id);
     }
 
     @Override
@@ -35,14 +44,12 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public void deleteById(int id) {
         employeeRepository.deleteById(id);
     }
 
     @Override
     public List<Employee> findByAttributes(EmployeeSearchRequest employeeSearchRequest) {
-        return List.of();
+        return findAttributes(employeeSearchRequest);
     }
-
-
 }
