@@ -1,11 +1,11 @@
-package vn.techzen.academy_pnv_24.service;
+package vn.techzen.academy_pnv_24.service.impl;
 
 import vn.techzen.academy_pnv_24.model.Student;
-import vn.techzen.academy_pnv_24.repository.StudentRepository;
+import vn.techzen.academy_pnv_24.service.IStudentService;
 
 import java.util.List;
 
-public class StudentService implements IStudentService{
+public class StudentService implements IStudentService {
     private IStudentService studentRepository;
 
 

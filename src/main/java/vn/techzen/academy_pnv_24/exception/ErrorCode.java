@@ -5,15 +5,15 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public enum ErrorCode {
-    STUDENT_NOT_EXIST(40401,"The student are not exist!",HttpStatus.NOT_FOUND),
-    TEACHER_NOT_EXIST(40401,"The teacher are not exist!",HttpStatus.NOT_FOUND),
-    EMPLOYEE_NOT_FOUND(404, "Employee not found",HttpStatus.NOT_FOUND),
-    INTERNAL_SERVER_ERROR(500, "Internal Server Error",HttpStatus.INTERNAL_SERVER_ERROR),
-    BAD_REQUEST(400, "Bad Request",HttpStatus.BAD_REQUEST),;
+    EMPLOYEE_NOT_EXIST(344334, "Employee not found", HttpStatus.NOT_FOUND),
+    BAD_REQUEST(22323, "Empty data", HttpStatus.BAD_REQUEST),
+    DEPARTMENT_NOT_EXIST(26535, "Empty data", HttpStatus.NOT_FOUND),
+    STUDENT_NOT_EXIST(4040404, "Student not found", HttpStatus.NOT_FOUND);
+
     Integer code;
     String message;
     HttpStatus status;

@@ -1,4 +1,4 @@
-package vn.techzen.academy_pnv_24.Controller;
+package vn.techzen.academy_pnv_24.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,7 @@ import vn.techzen.academy_pnv_24.dto.ApiResponse;
 import vn.techzen.academy_pnv_24.exception.AppException;
 import vn.techzen.academy_pnv_24.exception.ErrorCode;
 import vn.techzen.academy_pnv_24.model.Student;
-import vn.techzen.academy_pnv_24.service.StudentService;
+import vn.techzen.academy_pnv_24.service.impl.StudentService;
 
 import java.util.List;
 

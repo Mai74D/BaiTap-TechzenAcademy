@@ -1,4 +1,4 @@
-package vn.techzen.academy_pnv_24.repository;
+package vn.techzen.academy_pnv_24.repository.impl;
 
 import vn.techzen.academy_pnv_24.model.Student;
 

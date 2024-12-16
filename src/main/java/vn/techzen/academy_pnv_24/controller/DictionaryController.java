@@ -1,4 +1,4 @@
-package vn.techzen.academy_pnv_24.Controller;
+package vn.techzen.academy_pnv_24.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
