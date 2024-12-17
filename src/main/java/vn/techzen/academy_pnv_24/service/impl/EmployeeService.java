@@ -51,8 +51,4 @@ public class EmployeeService implements IEmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    @Override
-    public List<Employee> findByAttributes(EmployeeSearchRequest employeeSearchRequest) {
-        return List.of();
-    }
 }

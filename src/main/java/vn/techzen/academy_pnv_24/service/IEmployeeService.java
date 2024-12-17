@@ -13,6 +13,4 @@ public interface IEmployeeService {
     Optional<Employee> findById(int id);
     Employee save(Employee employee);
     void deleteById(int id);
-
-    List<Employee> findByAttributes(EmployeeSearchRequest employeeSearchRequest);
 }

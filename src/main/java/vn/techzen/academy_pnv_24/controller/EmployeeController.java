@@ -31,6 +31,8 @@ public class EmployeeController {
         return JsonResponse.ok(new PageResponse<>(employeeService.findAttributes(employeeSearchRequest, pageable)));
     }
 
+
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmployee(@PathVariable("id") int id) {
         return employeeService.findById(id)
