@@ -7,6 +7,8 @@ import vn.techzen.academy_pnv_24.entity.Employee;
 import vn.techzen.academy_pnv_24.entity.Gender;
 import vn.techzen.academy_pnv_24.repository.IEmployeeRepository;
 import vn.techzen.academy_pnv_24.service.IEmployeeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,8 +20,8 @@ public class EmployeeService implements IEmployeeService {
     private final IEmployeeRepository employeeRepository;
 
     @Override
-    public List<Employee> findAttributes(EmployeeSearchRequest employeeSearchRequest) {
-        // Lấy các thông tin từ EmployeeSearchRequest
+    public Page<Employee> findAttributes(EmployeeSearchRequest employeeSearchRequest, Pageable pageable) {
+        // Retrieve search request parameters
         String name = employeeSearchRequest.getName();
         LocalDate dobFrom = employeeSearchRequest.getDobFrom();
         LocalDate dobTo = employeeSearchRequest.getDobTo();
@@ -29,8 +31,9 @@ public class EmployeeService implements IEmployeeService {
         String phone = employeeSearchRequest.getPhone();
         Integer departmentId = employeeSearchRequest.getDepartmentId();
 
-        // Gọi phương thức findByAttributes trong repository
-        return employeeRepository.findByAttributes(name, dobFrom, dobTo, gender,salaryFrom, salaryTo, phone, departmentId);
+        // Call repository method with pagination
+        return employeeRepository.findByAttributes(
+                name, dobFrom, dobTo, gender, salaryFrom, salaryTo, phone, departmentId, pageable);
     }
 
     @Override
@@ -50,6 +53,6 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public List<Employee> findByAttributes(EmployeeSearchRequest employeeSearchRequest) {
-        return findAttributes(employeeSearchRequest);
+        return List.of();
     }
 }
